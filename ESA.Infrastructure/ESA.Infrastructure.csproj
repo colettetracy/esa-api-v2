@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Configurations>Development</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="6.1.0" />
+    <PackageReference Include="Mailjet.Api" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ESA.Core\ESA.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="GV.DomainModel">
+      <HintPath>..\libs\GV.DomainModel.dll</HintPath>
+    </Reference>
+    <Reference Include="GV.Libraries.NotificationServices">
+      <HintPath>..\libs\GV.Libraries.NotificationServices.dll</HintPath>
+    </Reference>
+    <Reference Include="GV.Libraries.NotificationServices.Sendgrid">
+      <HintPath>..\libs\GV.Libraries.NotificationServices.Sendgrid.dll</HintPath>
+    </Reference>
+    <Reference Include="GV.Libraries.NotificationServices.Smtp">
+      <HintPath>..\libs\GV.Libraries.NotificationServices.Smtp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

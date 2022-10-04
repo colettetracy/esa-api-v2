@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32811.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESA.API", "ESA.API\ESA.API.csproj", "{A77A1634-950F-410A-8B38-AE846D876BE1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESA.Infrastructure", "ESA.Infrastructure\ESA.Infrastructure.csproj", "{CDB45BF0-3463-4A22-B68D-241555BC9D31}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESA.Core", "ESA.Core\ESA.Core.csproj", "{8271BB57-BAC7-4DC2-8435-BBAE71DDFF3E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Any CPU = Development|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A77A1634-950F-410A-8B38-AE846D876BE1}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{A77A1634-950F-410A-8B38-AE846D876BE1}.Development|Any CPU.Build.0 = Development|Any CPU
+		{CDB45BF0-3463-4A22-B68D-241555BC9D31}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{CDB45BF0-3463-4A22-B68D-241555BC9D31}.Development|Any CPU.Build.0 = Development|Any CPU
+		{8271BB57-BAC7-4DC2-8435-BBAE71DDFF3E}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{8271BB57-BAC7-4DC2-8435-BBAE71DDFF3E}.Development|Any CPU.Build.0 = Development|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68FA7264-F525-4C3F-A599-8D17EE315AA0}
+	EndGlobalSection
+EndGlobal
