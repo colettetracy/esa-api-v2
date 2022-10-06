@@ -21,7 +21,7 @@ namespace ESA.Core.Specs
                 Query.Where(x => x.CourseCalendar.TeacherId == filter.TeacherId);
 
             if (filter.Schedule.HasValue)
-                Query.Where(x => x.Schedule.Date == filter.Schedule.Value.Date);
+                Query.Where(x => x.Schedule.Date >= filter.Schedule.Value.Date);
 
             Query.AsNoTracking();
         }
