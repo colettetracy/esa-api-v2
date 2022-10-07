@@ -30,5 +30,12 @@ namespace ESA.API.Controllers
         {
             return await scheduleService.AddScheduleAsync(scheduleInfo);
         }
+
+        [HttpDelete("{scheduleId}")]
+        [ProducesResponseType(typeof(ScheduleDeleteInfo), StatusCodes.Status200OK)]
+        public async Task<ActionResult<Result<ScheduleDeleteInfo>>> DeleteScheduleAsync([FromRoute] int scheduleId)
+        {
+            return await scheduleService.DeleteScheduleAsync(scheduleId);
+        }
     }
 }

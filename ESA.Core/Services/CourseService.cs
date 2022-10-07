@@ -107,11 +107,34 @@ namespace ESA.Core.Services
                 if (list == null)
                     return result.NotFound("");
 
-                return result.Success(list.Select(x => mapper.Map<CourseInfo>(x)));
+                //list.Where(x => x.IsActive == true);
+                return result.Success(list.Select(x => mapper.Map<CourseInfo>(x)).Where(x=>x.IsActive==true));
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, ex.Message);
+                return result.Error("An unexpected error has occurred", ex.Message);
+            }
+        }
+
+        public async Task<Result<ScheduleDeleteInfo>> DeleteAsync(int courseId)
+        {
+            var result = new Result<ScheduleDeleteInfo>();
+            try
+            {
+                var exists = await courseReadRepository.FirstOrDefaultAsync(new CourseSpec(courseId));
+                if (exists == null)
+                    return result.NotFound("");
+                exists.IsActive = false;
+                await courseWriteRepository.UpdateAsync(exists);
+                return result.Success(new ScheduleDeleteInfo
+                {
+                    Deleted = true
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message, courseId);
                 return result.Error("An unexpected error has occurred", ex.Message);
             }
         }

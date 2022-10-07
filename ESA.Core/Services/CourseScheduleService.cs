@@ -19,9 +19,9 @@ namespace ESA.Core.Services
         private readonly IReadRepository<CourseSchedule> scheduleReadRepository;
 
         public CourseScheduleService(
-            IMapper mapper, 
-            IAppLogger<CourseScheduleService> logger, 
-            IRepository<CourseSchedule> scheduleWriteRepository, 
+            IMapper mapper,
+            IAppLogger<CourseScheduleService> logger,
+            IRepository<CourseSchedule> scheduleWriteRepository,
             IReadRepository<CourseSchedule> scheduleReadRepository)
         {
             this.mapper = mapper;
@@ -66,6 +66,28 @@ namespace ESA.Core.Services
             catch (Exception ex)
             {
                 logger.LogError(ex, ex.Message, scheduleInfo);
+                return result.Error("An unexpected error has occurred", ex.Message);
+            }
+        }
+
+        public async Task<Result<ScheduleDeleteInfo>> DeleteScheduleAsync(int scheduleId)
+        {
+            var result = new Result<ScheduleDeleteInfo>();
+            try
+            {
+                var exists = await scheduleReadRepository.FirstOrDefaultAsync(new ScheduleSpec(scheduleId));
+                if (exists == null)
+                    return result.NotFound("");
+                exists.IsActive = false;
+                await scheduleWriteRepository.UpdateAsync(exists);
+                return result.Success(new ScheduleDeleteInfo
+                {
+                    Deleted = true
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message, scheduleId);
                 return result.Error("An unexpected error has occurred", ex.Message);
             }
         }

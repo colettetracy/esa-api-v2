@@ -23,7 +23,7 @@ namespace ESA.Core.Specs
             if (filter.Schedule.HasValue)
                 Query.Where(x => x.Schedule.Date >= filter.Schedule.Value.Date);
 
-            Query.AsNoTracking();
+            Query.Where(x => x.IsActive == true).AsNoTracking();
         }
 
         public ScheduleSpec(int scheduleId)

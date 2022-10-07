@@ -16,6 +16,13 @@ namespace ESA.Core.Specs
 
             if (filter.InitialPrice > 0 && filter.FinalPrice > 0)
                 Query.Where(x => x.Price >= filter.InitialPrice && x.Price <= filter.FinalPrice);
+
+            Query.Where(x => x.IsActive == true);
+        }
+
+        public CourseSpec(int id)
+        {
+            Query.Where(x => x.Id == id);
         }
     }
 }

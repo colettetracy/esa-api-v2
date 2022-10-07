@@ -13,6 +13,7 @@ namespace ESA.Core.Interfaces
         Task<Result<CourseInfo>> AddAsync(CourseBaseInfo courseInfo);
 
         Task<Result<CourseInfo>> UpdateAsync(int courseId, CourseBaseInfo courseInfo);
+        Task<Result<ScheduleDeleteInfo>> DeleteAsync(int scheduleId);
     }
 
     public interface ICalendarService
@@ -31,6 +32,8 @@ namespace ESA.Core.Interfaces
         Task<Result<IEnumerable<ScheduleInfo>>> FilterAsync(ScheduleFilter filter);
 
         Task<Result<ScheduleInfo>> AddScheduleAsync(ScheduleBaseInfo scheduleInfo);
+
+        Task<Result<ScheduleDeleteInfo>> DeleteScheduleAsync(int scheduleId);
     }
 
     public interface IReviewService

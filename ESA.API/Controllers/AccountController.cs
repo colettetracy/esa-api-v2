@@ -1,5 +1,7 @@
 ﻿using ESA.Core.Interfaces;
 using ESA.Core.Models.Account;
+using ESA.Core.Models.Course;
+using ESA.Core.Services;
 using GV.DomainModel.SharedKernel.Interop;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,6 +53,13 @@ namespace ESA.API.Controllers
         public async Task<ActionResult<Result<AccountInfo>>> UpdateAccountAsync([FromRoute] int accountId, [FromBody] AccountBaseInfo accountBaseInfo)
         {
             return await accountService.UpdateAccountAsync(accountId, accountBaseInfo);
+        }
+
+        [HttpDelete("{accountId}")]
+        [ProducesResponseType(typeof(ScheduleDeleteInfo), StatusCodes.Status200OK)]
+        public async Task<ActionResult<Result<ScheduleDeleteInfo>>> DeleteCourseAsync([FromRoute] int accountId)
+        {
+            return await accountService.DeleteAsync(accountId);
         }
 
         #region Profile

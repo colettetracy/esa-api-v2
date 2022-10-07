@@ -41,4 +41,9 @@ namespace ESA.Core.Models.Course
 
         public DateTime LastUpdate { get; set; } = DateTime.UtcNow;
     }
+
+    public class ScheduleDeleteInfo
+    {
+        public bool Deleted { get; set; }
+    }
 }

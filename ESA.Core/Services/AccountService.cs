@@ -2,6 +2,7 @@
 using ESA.Core.Entities;
 using ESA.Core.Interfaces;
 using ESA.Core.Models.Account;
+using ESA.Core.Models.Course;
 using ESA.Core.Specs;
 using ESA.Core.Validators;
 using GV.DomainModel.SharedKernel.Extensions;
@@ -67,6 +68,28 @@ namespace ESA.Core.Services
             catch (Exception ex)
             {
                 logger.LogError(ex, ex.Message, accountBaseInfo);
+                return result.Error("An unexpected error has occurred", ex.Message);
+            }
+        }
+
+        public async Task<Result<ScheduleDeleteInfo>> DeleteAccountAsync(int accountId)
+        {
+            var result = new Result<ScheduleDeleteInfo>();
+            try
+            {
+                var exists = await accountReadRepository.FirstOrDefaultAsync(new AccountSpec(accountId));
+                if (exists == null)
+                    return result.NotFound("");
+                exists.IsActive = false;
+                await accountWriteRepository.UpdateAsync(exists);
+                return result.Success(new ScheduleDeleteInfo
+                {
+                    Deleted = true
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message, accountId);
                 return result.Error("An unexpected error has occurred", ex.Message);
             }
         }

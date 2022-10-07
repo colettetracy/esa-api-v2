@@ -44,5 +44,12 @@ namespace ESA.API.Controllers
         {
             return await courseService.UpdateAsync(courseId, courseInfo);
         }
+
+        [HttpDelete("{courseId}")]
+        [ProducesResponseType(typeof(ScheduleDeleteInfo), StatusCodes.Status200OK)]
+        public async Task<ActionResult<Result<ScheduleDeleteInfo>>> DeleteCourseAsync([FromRoute] int courseId)
+        {
+            return await courseService.DeleteAsync(courseId);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ESA.Core.Models.Account;
+using ESA.Core.Models.Course;
 using GV.DomainModel.SharedKernel.Interop;
 
 namespace ESA.Core.Interfaces
@@ -14,6 +15,8 @@ namespace ESA.Core.Interfaces
         Task<Result<AccountInfo>> AddAccountAsync(AccountBaseInfo accountBaseInfo);
 
         Task<Result<AccountInfo>> UpdateAccountAsync(int accountId, AccountBaseInfo accountBaseInfo);
+
+        Task<Result<ScheduleDeleteInfo>> DeleteAccountAsync(int accountId);
     }
 
     public interface IAccountSurveyService
