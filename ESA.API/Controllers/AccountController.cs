@@ -59,7 +59,7 @@ namespace ESA.API.Controllers
         [ProducesResponseType(typeof(ScheduleDeleteInfo), StatusCodes.Status200OK)]
         public async Task<ActionResult<Result<ScheduleDeleteInfo>>> DeleteCourseAsync([FromRoute] int accountId)
         {
-            return await accountService.DeleteAsync(accountId);
+            return await accountService.DeleteAccountAsync(accountId);
         }
 
         #region Profile
