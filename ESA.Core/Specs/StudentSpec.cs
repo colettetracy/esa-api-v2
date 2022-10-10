@@ -8,11 +8,16 @@ namespace ESA.Core.Specs
     {
         public StudentSpec(StudentFilter filter)
         {
-            Query.Include(x => x.CourseSchedule)
-                .Include(x => x.CourseStudentFriend);
+            Query.Include(x => x.CourseSchedule).ThenInclude(x => x.CourseCalendar.Teacher)
+                .Include(x => x.CourseSchedule).ThenInclude(x => x.CourseCalendar.Course)
+                .Include(x => x.CourseStudentFriend)
+                .Include(x => x.Student);
 
             if (filter.ScheduleId > 0)
                 Query.Where(x => x.CourseScheduleId == filter.ScheduleId);
+
+            if (filter.TeacherId > 0)
+                Query.Where(x => x.CourseSchedule.CourseCalendar.TeacherId == filter.TeacherId);
 
             if (filter.StudentId > 0)
                 Query.Where(x => x.StudentId == filter.StudentId);

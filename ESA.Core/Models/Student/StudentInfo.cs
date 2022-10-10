@@ -1,4 +1,7 @@
-﻿namespace ESA.Core.Models.Student
+﻿using ESA.Core.Models.Account;
+using ESA.Core.Models.Course;
+
+namespace ESA.Core.Models.Student
 {
     public class StudentInfo
     {
@@ -21,6 +24,9 @@
         public DateTime EnrolledDate { get; set; }
 
         public DateTime LastUpdate { get; set; }
+
+        public AccountInfo Student { get; set; }
+        public ScheduleInfo CourseSchedule { get; set; }
 
         public IEnumerable<FriendInfo> Friends { get; set; } = Enumerable.Empty<FriendInfo>();
     }
