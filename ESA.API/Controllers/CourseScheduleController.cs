@@ -1,5 +1,7 @@
-﻿using ESA.Core.Interfaces;
+﻿using AutoMapper;
+using ESA.Core.Interfaces;
 using ESA.Core.Models.Course;
+using ESA.Core.Specs;
 using ESA.Core.Specs.Filters;
 using GV.DomainModel.SharedKernel.Interop;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +38,38 @@ namespace ESA.API.Controllers
         public async Task<ActionResult<Result<ScheduleDeleteInfo>>> DeleteScheduleAsync([FromRoute] int scheduleId)
         {
             return await scheduleService.DeleteScheduleAsync(scheduleId);
+        }
+
+        
+    }
+    public class UtilsAvailability
+    {
+        public Result<IEnumerable<AvailabilityInfo>> getAvailability(IEnumerable<ScheduleInfo> schedule)
+        {
+            var result = new Result<IEnumerable<AvailabilityInfo>>();
+            try
+            {
+                List<AvailabilityInfo>? availability = new();
+                foreach (ScheduleInfo sch in schedule)
+                {
+                    AvailabilityInfo availabilityInfo = new AvailabilityInfo();
+                    if (availability.Count() == 0)
+                    {
+                        availabilityInfo.Date = sch.Schedule;
+                        availabilityInfo.Times.Add(sch.Schedule.ToShortTimeString());
+                    }
+                    else
+                    {
+
+                    }
+                }
+
+                return result.Success(availability);
+            }
+            catch (Exception ex)
+            {
+                return result.Error("An unexpected error has occurred", ex.Message);
+            }
         }
     }
 }

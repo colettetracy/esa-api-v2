@@ -18,6 +18,13 @@ namespace ESA.API.Controllers
             this.couponService = couponService;
         }
 
+        [HttpGet]
+        [ProducesResponseType(typeof(CouponInfo), StatusCodes.Status200OK)]
+        public async Task<ActionResult<Result<IEnumerable<CouponInfo>>>> GetAllCouponsAsync()
+        {
+            return await couponService.GetAllAsync();
+        }
+
         [HttpGet("{couponId}")]
         [ProducesResponseType(typeof(CouponInfo), StatusCodes.Status200OK)]
         public async Task<ActionResult<Result<CouponInfo>>> GetCouponByIdAsync([FromRoute] int couponId)

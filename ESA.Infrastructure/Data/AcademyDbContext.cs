@@ -191,9 +191,7 @@ namespace ESA.Core.Data
             {
                 entity.ToTable("coupons", "private");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Coupon)
                     .IsRequired()

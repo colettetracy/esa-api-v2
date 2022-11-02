@@ -6,7 +6,7 @@ namespace ESA.Core.Interfaces
 {
     public interface ICouponService
     {
-
+        Task<Result<IEnumerable<CouponInfo>>> GetAllAsync();
         Task<Result<CouponInfo>> FindByIdAsync(int couponId);
 
         Task<Result<CouponInfo>> FindByCodeAsync(string code);

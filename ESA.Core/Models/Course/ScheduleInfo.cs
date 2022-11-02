@@ -46,4 +46,10 @@ namespace ESA.Core.Models.Course
     {
         public bool Deleted { get; set; }
     }
+
+    public class AvailabilityInfo
+    {
+        public DateTime? Date { get; set; }
+        public List<string> Times { get; set; } = new List<string>();
+    }
 }

@@ -144,6 +144,24 @@ namespace ESA.Core.Services
                 return result.Error("An unexpected error has occurred", ex.Message);
             }
         }
-       
+
+        public async Task<Result<IEnumerable<CouponInfo>>> GetAllAsync()
+        {
+            var result = new Result<IEnumerable<CouponInfo>>();
+            try
+            {
+                var list = await couponReadRepository.ListAsync();
+                if (list == null)
+                    return result.NotFound("");
+
+                //list.Where(x => x.IsActive == true);
+                return result.Success(list.Select(x => mapper.Map<CouponInfo>(x)).Where(x => x.IsActive == true));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message);
+                return result.Error("An unexpected error has occurred", ex.Message);
+            }
+        }
     }
 }
