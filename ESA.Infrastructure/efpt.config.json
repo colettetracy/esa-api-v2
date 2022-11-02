@@ -6,8 +6,8 @@
    "FilterSchemas": false,
    "IncludeConnectionString": true,
    "ModelNamespace": null,
-   "OutputContextPath": "Data2",
-   "OutputPath": "Entities2",
+   "OutputContextPath": "Data",
+   "OutputPath": "..\/ESA.Core\/Entities",
    "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "ESA.Core",
    "Schemas": null,
@@ -15,11 +15,103 @@
    "SelectedToBeGenerated": 0,
    "Tables": [
       {
+         "Name": "private.account",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.account_profile",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.account_survey",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.coupons",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.course",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.course_calendar",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.course_review",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.course_schedule",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.course_student",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.course_student_friend",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.course_student_group",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.invoice",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.invoice_config",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.invoice_detail",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.location",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.payment",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.payment_method",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.payment_status",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.refund",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.refund_status",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.role",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.sale_tax",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.setting",
+         "ObjectType": 0
+      },
+      {
          "Name": "private.tax",
          "ObjectType": 0
       }
    ],
-   "UiHint": "academy",
+   "UiHint": ".academy",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
    "UseDbContextSplitting": false,

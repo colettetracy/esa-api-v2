@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ESA.Core.Entities;
 using ESA.Core.Interfaces;
 using ESA.Core.Models.Account;
 using ESA.Core.Models.Course;

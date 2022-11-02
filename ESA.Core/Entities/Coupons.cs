@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace ESA.Core
 {
-    public partial class Setting
+    public partial class Coupons
     {
-        public string Code { get; set; }
-        public string Value { get; set; }
+        public int Id { get; set; }
+        public string Coupon { get; set; }
+        public int Discount { get; set; }
         public bool IsActive { get; set; }
-        public DateTime LastUpdate { get; set; }
     }
 }

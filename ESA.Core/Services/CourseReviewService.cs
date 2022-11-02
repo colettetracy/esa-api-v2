@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ESA.Core.Entities;
+
 using ESA.Core.Interfaces;
 using ESA.Core.Models.Course;
 using ESA.Core.Specs;

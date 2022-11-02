@@ -6,6 +6,7 @@ using GV.DomainModel.SharedKernel.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Data.SqlClient;
+using ESA.Core.Data;
 
 namespace ESA.Infrastructure
 {

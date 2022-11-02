@@ -1,5 +1,5 @@
 ﻿using Ardalis.Specification;
-using ESA.Core.Entities;
+
 
 namespace ESA.Core.Specs
 {

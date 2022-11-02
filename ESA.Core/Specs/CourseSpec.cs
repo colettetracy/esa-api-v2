@@ -1,5 +1,4 @@
 ﻿using Ardalis.Specification;
-using ESA.Core.Entities;
 using ESA.Core.Specs.Filters;
 
 namespace ESA.Core.Specs

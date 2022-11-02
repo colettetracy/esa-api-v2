@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ESA.Core.Entities;
 using ESA.Core.Interfaces;
 using ESA.Core.Models.Student;
 using ESA.Core.Specs;
@@ -19,14 +18,15 @@ namespace ESA.Core.Services
         private readonly IReadRepository<CourseStudent> studentReadRepository;
         private readonly IRepository<CourseStudentFriend> friendWriteRepository;
         private readonly IReadRepository<CourseStudentFriend> friendReadRepository;
-
+        private readonly IReadRepository<Coupons> couponReadRepository;
         public StudentService(
-            IMapper mapper, 
-            IAppLogger<StudentService> logger, 
-            IRepository<CourseStudent> studentWriteRepository, 
-            IReadRepository<CourseStudent> studentReadRepository, 
-            IRepository<CourseStudentFriend> friendWriteRepository, 
-            IReadRepository<CourseStudentFriend> friendReadRepository)
+            IMapper mapper,
+            IAppLogger<StudentService> logger,
+            IRepository<CourseStudent> studentWriteRepository,
+            IReadRepository<CourseStudent> studentReadRepository,
+            IRepository<CourseStudentFriend> friendWriteRepository,
+            IReadRepository<CourseStudentFriend> friendReadRepository,
+         IReadRepository<Coupons> couponReadRepository)
         {
             this.mapper = mapper;
             this.logger = logger;
@@ -34,6 +34,7 @@ namespace ESA.Core.Services
             this.studentReadRepository = studentReadRepository;
             this.friendWriteRepository = friendWriteRepository;
             this.friendReadRepository = friendReadRepository;
+            this.couponReadRepository = couponReadRepository;
         }
 
         public async Task<Result<StudentInfo>> AddStudentAsync(StudentBaseInfo studentInfo)
@@ -57,11 +58,21 @@ namespace ESA.Core.Services
                 if (!validationInfo.IsValid)
                     return result.Invalid(validationInfo.AsErrors());
 
+                
+
                 var student = mapper.Map<CourseStudent>(studentInfo);
                 if (student == null)
                     return result.Conflict("Mapping error");
 
-                student.LastUpdate = DateTime.UtcNow;
+                Coupons? coupon = new();
+                if (studentInfo.Coupon != null)
+                    coupon = await couponReadRepository.FirstOrDefaultAsync(new CouponSpec(studentInfo.Coupon), Utils.Commons.GetCancellationToken(15).Token);
+                if (coupon == null)
+                    return result.NotFound($"Coupon not exist: {studentInfo.Coupon}");
+                else
+                    student.Discount = (coupon.Discount/100) * student.Amount;
+
+                    student.LastUpdate = DateTime.UtcNow;
                 student = await studentWriteRepository.AddAsync(student);
                 if (student == null)
                     return result.Conflict("Saving error");

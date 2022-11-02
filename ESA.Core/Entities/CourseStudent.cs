@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ESA.Core.Entities
+namespace ESA.Core
 {
     public partial class CourseStudent
     {
@@ -27,6 +27,14 @@ namespace ESA.Core.Entities
         /// Minutos que el estudiante compra
         /// </summary>
         public int TimePurchased { get; set; }
+        /// <summary>
+        /// Monto total de la compra
+        /// </summary>
+        public decimal Amount { get; set; }
+        /// <summary>
+        /// Descuento de la clase
+        /// </summary>
+        public decimal Discount { get; set; }
 
         public virtual CourseSchedule CourseSchedule { get; set; }
         public virtual Account Student { get; set; }

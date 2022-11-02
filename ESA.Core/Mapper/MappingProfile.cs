@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ESA.Core.Entities;
+
 using ESA.Core.Models.Account;
 using ESA.Core.Models.Course;
 using ESA.Core.Models.Payment;
@@ -95,6 +95,10 @@ namespace ESA.Core.Mapper
             CreateMap<StudentGroupCreate, CourseStudentGroup>()
                 .ForMember(dest => dest.CourseCalendarId, act => act.MapFrom(src => src.CalendarId))
                 .ReverseMap();
+
+            // CouponsMap
+            CreateMap<Coupons, CouponInfo>().ReverseMap();
+            CreateMap<CouponBaseInfo, Coupons>().ReverseMap();
 
             /// Payment-PayPal
             CreateMap<PayPalInfo, Payment>()

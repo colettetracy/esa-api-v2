@@ -20,6 +20,8 @@ namespace ESA.Core.Models.Student
         public bool PaymentConfirmed { get; set; }
 
         public int TimePurchased { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Discount { get; set; }
 
         public DateTime EnrolledDate { get; set; }
 
@@ -46,6 +48,9 @@ namespace ESA.Core.Models.Student
         public bool PaymentConfirmed { get; set; } = false;
 
         public int TimePurchased { get; set; }
+        public decimal Amount { get; set; }
+
+        public string? Coupon { get; set; }
 
         public DateTime EnrolledDate { get; set; }// = DateTime.UtcNow;
 

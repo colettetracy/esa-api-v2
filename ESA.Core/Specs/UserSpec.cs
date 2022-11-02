@@ -1,5 +1,5 @@
 ﻿using Ardalis.Specification;
-using ESA.Core.Entities;
+
 using ESA.Core.Models.Auth;
 
 namespace ESA.Core.Specs
