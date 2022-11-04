@@ -23,6 +23,8 @@ namespace ESA.Core
             services.AddScoped(typeof(IReviewService), typeof(CourseReviewService));
             services.AddScoped(typeof(ICouponService), typeof(CouponService));
 
+            services.AddScoped(typeof(IPackService), typeof(PackService));
+
             services.AddScoped(typeof(IStudentService), typeof(StudentService));
 
             services.AddScoped(typeof(INotificationService), typeof(NotificationService));

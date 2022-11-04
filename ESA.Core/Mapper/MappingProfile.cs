@@ -100,6 +100,9 @@ namespace ESA.Core.Mapper
             CreateMap<Coupons, CouponInfo>().ReverseMap();
             CreateMap<CouponBaseInfo, Coupons>().ReverseMap();
 
+            CreateMap<LessonsPack, PackInfo>().ReverseMap();
+            CreateMap<PackBaseInfo, LessonsPack>().ReverseMap();
+
             /// Payment-PayPal
             CreateMap<PayPalInfo, Payment>()
                 .ForMember(dest => dest.OrderCode, act => act.MapFrom(src => src.Id))

@@ -123,6 +123,7 @@ namespace ESA.Core.Services
                 {
                     return result.Conflict("The coupon is not available!.");
                 }
+
                 decimal desc = decimal.Divide(coupon.Discount , 100);
                 student.Discount = (desc * student.Amount);
 

@@ -17,4 +17,28 @@ namespace ESA.Core.Models.Payment
         public bool IsActive { get; set; } = true;
 
     }
+
+    public class PackBaseInfo
+    {
+        [Required]
+        public int Hours { get; set; }
+        [Required]
+        public int Minutes { get; set; }
+        public int Price { get; set; }
+        public decimal Savings { get; set; }
+        public bool IsActive { get; set; } = true;
+        public DateTime Updated_At { get; set; }
+    }
+
+    public class PackBaseInfoEdit
+    {
+        public int Id { get; set; }
+        public int Hours { get; set; }
+        public int Minutes { get; set; }
+        public int Price { get; set; }
+        public decimal Savings { get; set; }
+        public bool IsActive { get; set; } = true;
+        public DateTime Updated_At { get; set; }
+
+    }
 }

@@ -21,4 +21,12 @@ namespace ESA.Core.Specs
 
         }
     }
+
+    public class PackSpec : Specification<LessonsPack>
+    {
+        public PackSpec(int packId, bool includeRelations = true)
+        {
+            Query.Where(x => x.Id == packId);
+        }
+    }
 }

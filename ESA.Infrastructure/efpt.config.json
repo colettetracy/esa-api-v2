@@ -71,6 +71,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "private.lessons_pack",
+         "ObjectType": 0
+      },
+      {
          "Name": "private.location",
          "ObjectType": 0
       },
@@ -104,6 +108,10 @@
       },
       {
          "Name": "private.setting",
+         "ObjectType": 0
+      },
+      {
+         "Name": "private.student_packs",
          "ObjectType": 0
       },
       {

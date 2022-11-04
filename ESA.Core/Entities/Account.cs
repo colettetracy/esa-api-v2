@@ -13,6 +13,7 @@ namespace ESA.Core
             CourseStudent = new HashSet<CourseStudent>();
             CourseStudentGroup = new HashSet<CourseStudentGroup>();
             Refund = new HashSet<Refund>();
+            StudentPacks = new HashSet<StudentPacks>();
         }
 
         public int Id { get; set; }
@@ -36,5 +37,6 @@ namespace ESA.Core
         public virtual ICollection<CourseStudent> CourseStudent { get; set; }
         public virtual ICollection<CourseStudentGroup> CourseStudentGroup { get; set; }
         public virtual ICollection<Refund> Refund { get; set; }
+        public virtual ICollection<StudentPacks> StudentPacks { get; set; }
     }
 }

@@ -33,6 +33,7 @@ namespace ESA.Core.Data
         public virtual DbSet<Invoice> Invoice { get; set; }
         public virtual DbSet<InvoiceConfig> InvoiceConfig { get; set; }
         public virtual DbSet<InvoiceDetail> InvoiceDetail { get; set; }
+        public virtual DbSet<LessonsPack> LessonsPack { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<Payment> Payment { get; set; }
         public virtual DbSet<PaymentMethod> PaymentMethod { get; set; }
@@ -42,6 +43,7 @@ namespace ESA.Core.Data
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<SaleTax> SaleTax { get; set; }
         public virtual DbSet<Setting> Setting { get; set; }
+        public virtual DbSet<StudentPacks> StudentPacks { get; set; }
         public virtual DbSet<Tax> Tax { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -742,6 +744,27 @@ namespace ESA.Core.Data
                     .HasConstraintName("fk_invoice_detail_invoice");
             });
 
+            modelBuilder.Entity<LessonsPack>(entity =>
+            {
+                entity.ToTable("lessons_pack", "private");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Hours).HasColumnName("hours");
+
+                entity.Property(e => e.IsActive).HasColumnName("is_active");
+
+                entity.Property(e => e.Minutes).HasColumnName("minutes");
+
+                entity.Property(e => e.Price)
+                    .HasPrecision(8, 2)
+                    .HasColumnName("price");
+
+                entity.Property(e => e.Savings)
+                    .HasPrecision(8, 2)
+                    .HasColumnName("savings");
+            });
+
             modelBuilder.Entity<Location>(entity =>
             {
                 entity.ToTable("location", "private");
@@ -1101,6 +1124,35 @@ namespace ESA.Core.Data
                     .IsRequired()
                     .HasMaxLength(255)
                     .HasColumnName("value");
+            });
+
+            modelBuilder.Entity<StudentPacks>(entity =>
+            {
+                entity.ToTable("student_packs", "private");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdAccount).HasColumnName("id_account");
+
+                entity.Property(e => e.IdPack).HasColumnName("id_pack");
+
+                entity.Property(e => e.IsActive).HasColumnName("is_active");
+
+                entity.Property(e => e.LeftMinutes).HasColumnName("left_minutes");
+
+                entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+
+                entity.HasOne(d => d.IdAccountNavigation)
+                    .WithMany(p => p.StudentPacks)
+                    .HasForeignKey(d => d.IdAccount)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("student_packs_id_account_fkey");
+
+                entity.HasOne(d => d.IdPackNavigation)
+                    .WithMany(p => p.StudentPacks)
+                    .HasForeignKey(d => d.IdPack)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("student_packs_id_pack_fkey");
             });
 
             modelBuilder.Entity<Tax>(entity =>

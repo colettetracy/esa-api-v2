@@ -15,4 +15,16 @@ namespace ESA.Core.Models.Payment
 
         public bool IsActive { get; set; } = true;
     }
+
+    public class PackInfo
+    {
+        public int Id { get; set; }
+        public int Hours { get; set; } 
+        public int Price { get; set; }
+        public int Minutes { get; set; }
+        public decimal Savings{ get; set; }
+
+        public bool IsActive { get; set; } = true;
+        public DateTime Updated_At { set; get; }
+    }
 }
