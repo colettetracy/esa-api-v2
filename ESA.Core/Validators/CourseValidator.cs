@@ -83,7 +83,21 @@ namespace ESA.Core.Validators
             RuleFor(x => x.StudentId).GreaterThan(0).WithMessage("Is required.");
         }
     }
-
+    public class StudentDeleteValidator : AbstractValidator<StudentDeleteBaseInfo>
+    {
+        public StudentDeleteValidator()
+        {
+            RuleFor(x => x.Id).GreaterThan(0).WithMessage("Is required.");
+        }
+    }
+    public class StudentCouponValidator : AbstractValidator<StudentCouponBaseInfo>
+    {
+        public StudentCouponValidator()
+        {
+            RuleFor(x => x.Id).GreaterThan(0).WithMessage("Is required.");
+            RuleFor(x => x.Coupon).NotNull().NotEmpty().WithMessage("Is required.");
+        }
+    }
     public class StudentGroupValidator : AbstractValidator<StudentGroupCreate>
     {
         public StudentGroupValidator()

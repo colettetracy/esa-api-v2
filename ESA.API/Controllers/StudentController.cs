@@ -1,4 +1,5 @@
 ﻿using ESA.Core.Interfaces;
+using ESA.Core.Models.Course;
 using ESA.Core.Models.Student;
 using ESA.Core.Specs.Filters;
 using GV.DomainModel.SharedKernel.Interop;
@@ -29,6 +30,20 @@ namespace ESA.API.Controllers
         public async Task<ActionResult<Result<StudentInfo>>> AddStudentAsync([FromBody] StudentBaseInfo studentInfo)
         {
             return await studentService.AddStudentAsync(studentInfo);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(typeof(StudentInfo), StatusCodes.Status200OK)]
+        public async Task<ActionResult<Result<StudentInfo>>> ApplyCouponAsync([FromBody] StudentCouponBaseInfo studentInfo)
+        {
+            return await studentService.ApplyCouponAsync(studentInfo);
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(ScheduleDeleteInfo), StatusCodes.Status200OK)]
+        public async Task<ActionResult<Result<ScheduleDeleteInfo>>> DeleteAsync([FromRoute] int Id)
+        {
+            return await studentService.DeleteStudentAsync(Id);
         }
     }
 }

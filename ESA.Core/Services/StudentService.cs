@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ESA.Core.Interfaces;
+using ESA.Core.Models.Course;
 using ESA.Core.Models.Student;
 using ESA.Core.Specs;
 using ESA.Core.Specs.Filters;
@@ -58,7 +59,7 @@ namespace ESA.Core.Services
                 if (!validationInfo.IsValid)
                     return result.Invalid(validationInfo.AsErrors());
 
-                
+
 
                 var student = mapper.Map<CourseStudent>(studentInfo);
                 if (student == null)
@@ -70,9 +71,9 @@ namespace ESA.Core.Services
                 if (coupon == null)
                     return result.NotFound($"Coupon not exist: {studentInfo.Coupon}");
                 else
-                    student.Discount = (coupon.Discount/100) * student.Amount;
+                    student.Discount = (coupon.Discount / 100) * student.Amount;
 
-                    student.LastUpdate = DateTime.UtcNow;
+                student.LastUpdate = DateTime.UtcNow;
                 student = await studentWriteRepository.AddAsync(student);
                 if (student == null)
                     return result.Conflict("Saving error");
@@ -82,6 +83,78 @@ namespace ESA.Core.Services
             catch (Exception ex)
             {
                 logger.LogError(ex, ex.Message, studentInfo);
+                return result.Error("An unexpected error has occurred", ex.Message);
+            }
+        }
+
+        public async Task<Result<StudentInfo>> ApplyCouponAsync(StudentCouponBaseInfo studentInfo)
+        {
+            var result = new Result<StudentInfo>();
+            try
+            {
+                if (studentInfo == null)
+                    return result.Invalid(new List<ValidationError>
+                    {
+                        new ValidationError()
+                        {
+                            Identifier = $"Student::{AddStudentAsync}",
+                            ErrorMessage = "Model invalid",
+                            Severity = ValidationSeverity.Warning
+                        }
+                    });
+
+                var validatorInfo = new StudentCouponValidator();
+                var validationInfo = validatorInfo.Validate(studentInfo);
+                if (!validationInfo.IsValid)
+                    return result.Invalid(validationInfo.AsErrors());
+
+                var student = await studentReadRepository.FirstOrDefaultAsync(new StudentSpec(studentInfo.Id), Utils.Commons.GetCancellationToken(15).Token);
+                if (student == null)
+                    return result.Conflict("Student schedule not found");
+                if(student.Discount >0)
+                {
+                    return result.Conflict("Coupon has been added yet.");
+                }
+                var coupon = await couponReadRepository.FirstOrDefaultAsync(new CouponSpec(studentInfo.Coupon), Utils.Commons.GetCancellationToken(15).Token);
+                if (coupon == null)
+                    return result.NotFound($"Coupon not exist: {studentInfo.Coupon}");
+
+                if(!coupon.IsActive)
+                {
+                    return result.Conflict("The coupon is not available!.");
+                }
+                decimal desc = decimal.Divide(coupon.Discount , 100);
+                student.Discount = (desc * student.Amount);
+
+                student.LastUpdate = DateTime.UtcNow;
+                await studentWriteRepository.UpdateAsync(student);
+
+                return result.Success(mapper.Map<StudentInfo>(student));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message, studentInfo);
+                return result.Error("An unexpected error has occurred", ex.Message);
+            }
+        }
+
+        public async Task<Result<ScheduleDeleteInfo>> DeleteStudentAsync(int id)
+        {
+            var result = new Result<ScheduleDeleteInfo>();
+            try
+            {
+                var exists = await studentReadRepository.FirstOrDefaultAsync(new StudentSpec(id));
+                if (exists == null)
+                    return result.NotFound("");
+                await studentWriteRepository.DeleteAsync(exists);
+                return result.Success(new ScheduleDeleteInfo
+                {
+                    Deleted = true
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message, id);
                 return result.Error("An unexpected error has occurred", ex.Message);
             }
         }

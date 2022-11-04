@@ -33,6 +33,11 @@ namespace ESA.Core.Specs
                 .Where(x => x.CourseScheduleId == scheduleId && x.StudentId == studentId)
                 .AsNoTracking();
         }
+        public StudentSpec(int Id)
+        {
+            Query.Where(x => x.Id == Id)
+                .AsNoTracking();
+        }
     }
 
     public class StudentGroupSpec : Specification<CourseStudentGroup>

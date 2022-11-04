@@ -381,7 +381,7 @@ namespace ESA.Core.Data
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Amount)
-                    .HasPrecision(3, 2)
+                    .HasPrecision(6, 2)
                     .HasColumnName("amount")
                     .HasComment("Monto total de la compra");
 

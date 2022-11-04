@@ -56,7 +56,17 @@ namespace ESA.Core.Models.Student
 
         public List<FriendBaseInfo> Friends { get; set; } = new List<FriendBaseInfo>();
     }
+    public class StudentCouponBaseInfo
+    {
+        public int Id { set; get; }
+        public string Coupon { get; set; } = String.Empty;
 
+    }
+    public class StudentDeleteBaseInfo
+    {
+        public int Id { set; get; }
+
+    }
     public class FriendInfo
     {
         public int Id { get; set; }

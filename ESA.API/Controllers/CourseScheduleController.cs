@@ -26,6 +26,16 @@ namespace ESA.API.Controllers
             return await scheduleService.FilterAsync(filter);
         }
 
+        [HttpGet("availability")]
+        [ProducesResponseType(typeof(IEnumerable<ScheduleInfo>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<Result<IEnumerable<AvailabilityInfo>>>> GetAvailabilityScheduleAsync([FromQuery] ScheduleFilter filter)
+        {
+            var filtered = await scheduleService.FilterAsync(filter);
+
+
+            return UtilsAvailability.getAvailability(filtered.Value);
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(ScheduleInfo), StatusCodes.Status200OK)]
         public async Task<ActionResult<Result<ScheduleInfo>>> AddScheduleAsync([FromBody] ScheduleBaseInfo scheduleInfo)
@@ -42,9 +52,9 @@ namespace ESA.API.Controllers
 
         
     }
-    public class UtilsAvailability
+    public static class UtilsAvailability
     {
-        public Result<IEnumerable<AvailabilityInfo>> getAvailability(IEnumerable<ScheduleInfo> schedule)
+        public static Result<IEnumerable<AvailabilityInfo>> getAvailability(IEnumerable<ScheduleInfo> schedule)
         {
             var result = new Result<IEnumerable<AvailabilityInfo>>();
             try
@@ -56,12 +66,21 @@ namespace ESA.API.Controllers
                     if (availability.Count() == 0)
                     {
                         availabilityInfo.Date = sch.Schedule;
-                        availabilityInfo.Times.Add(sch.Schedule.ToShortTimeString());
+                        availabilityInfo.Times.AddRange(getTimesOfDay(sch.Schedule, sch.Minutes));
                     }
                     else
                     {
-
+                        if(!existsDate(availability.Select(x=> x.Date).ToList(), sch.Schedule))
+                        {
+                            availabilityInfo.Date = sch.Schedule;
+                        }
+                        else
+                        {
+                            availabilityInfo = availability.Where(x => x.Date.Equals(sch.Schedule)).FirstOrDefault();
+                        }
+                        availabilityInfo.Times.AddRange(getTimesOfDay(sch.Schedule, sch.Minutes));
                     }
+                    availability.Add(availabilityInfo);
                 }
 
                 return result.Success(availability);
@@ -70,6 +89,23 @@ namespace ESA.API.Controllers
             {
                 return result.Error("An unexpected error has occurred", ex.Message);
             }
+        }
+
+        public static List<string> getTimesOfDay(DateTime date, int duration)
+        {
+            var dateTmp = date;
+            List<string> times = new List<string>();
+            while (dateTmp.CompareTo(date.AddMinutes(duration)) < 0)
+            {
+                times.Add(dateTmp.ToShortTimeString()+"");
+                dateTmp = dateTmp.AddMinutes(30);
+            }
+            return times;
+        }
+
+        public static bool existsDate(List<DateTime?> dates, DateTime date)
+        {
+            return dates.Where(d => d.Equals(date)).Any();
         }
     }
 }

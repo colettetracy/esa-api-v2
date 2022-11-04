@@ -101,7 +101,7 @@ namespace ESA.Core.Services
                 if (list == null)
                     return result.NotFound("");
 
-                return result.Success(list.Select(x => mapper.Map<ScheduleInfo>(x)));
+                return result.Success(list.Select(x => mapper.Map<ScheduleInfo>(x)).OrderBy(s => s.Schedule));
             }
             catch (Exception ex)
             {
