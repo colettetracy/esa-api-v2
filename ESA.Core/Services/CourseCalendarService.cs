@@ -18,9 +18,9 @@ namespace ESA.Core.Services
         private readonly IReadRepository<CourseCalendar> calendarReadRepository;
 
         public CourseCalendarService(
-            IMapper mapper, 
-            IAppLogger<CourseCalendarService> logger, 
-            IRepository<CourseCalendar> calendarWriteRepository, 
+            IMapper mapper,
+            IAppLogger<CourseCalendarService> logger,
+            IRepository<CourseCalendar> calendarWriteRepository,
             IReadRepository<CourseCalendar> calendarReadRepository)
         {
             this.mapper = mapper;
@@ -29,7 +29,7 @@ namespace ESA.Core.Services
             this.calendarReadRepository = calendarReadRepository;
         }
 
-        public async Task<Result<CalendarInfo>> AddCalendarAsync(CalendarBaseInfo calendarInfo)
+        public async Task<Result<CalendarInfo>> AddCalendarAsync(List<CalendarBaseInfo> calendarInfo)
         {
             var result = new Result<CalendarInfo>();
             try
@@ -45,22 +45,29 @@ namespace ESA.Core.Services
                         }
                     });
 
-                var validatorInfo = new CalendarValidator();
-                var validationInfo = validatorInfo.Validate(calendarInfo);
-                if (!validationInfo.IsValid)
-                    return result.Invalid(validationInfo.AsErrors());
+                CalendarInfo res = new();
+                foreach (var ci in calendarInfo)
+                {
+                    var calendar = mapper.Map<CourseCalendar>(ci);
+                    if (calendar == null)
+                        return result.Conflict("Mapping error");
 
-                var calendar = mapper.Map<CourseCalendar>(calendarInfo);
-                if (calendar == null)
-                    return result.Conflict("Mapping error");
+                    calendar.IsActive = true;
+                    calendar.LastUpdate = DateTime.UtcNow;
+                    foreach(var sch in ci.CourseSchedules)
+                    {
+                        calendar.CourseSchedule.Add(mapper.Map<CourseSchedule>(sch));
+                    }
+                    calendar = await calendarWriteRepository.AddAsync(calendar, Utils.Commons.GetCancellationToken(60).Token);
+                    if (calendar == null)
+                        return result.Conflict("Save error");
 
-                calendar.IsActive = true;
-                calendar.LastUpdate = DateTime.UtcNow;
-                calendar = await calendarWriteRepository.AddAsync(calendar, Utils.Commons.GetCancellationToken(60).Token);
-                if (calendar == null)
+                    res = mapper.Map<CalendarInfo>(calendar);
+
+                }
+                if (res == null)
                     return result.Conflict("Save error");
-
-                return result.Success(mapper.Map<CalendarInfo>(calendar));
+                return result.Success(res);
             }
             catch (Exception ex)
             {

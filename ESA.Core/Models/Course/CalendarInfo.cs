@@ -21,18 +21,20 @@ namespace ESA.Core.Models.Course
 
     public class CalendarBaseInfo
     {
-        [Required]
+        
         public int CourseId { get; set; }
 
-        [Required]
+        
         public int TeacherId { get; set; }
 
-        [Required]
+        
         public DateTime StartDate { get; set; }
 
-        [Required]
+        
         public DateTime FinishDate { get; set; }
 
         public bool IsActive { get; set; } = true;
+
+        public List<ScheduleBaseInfo> CourseSchedules { set; get; } = new List<ScheduleBaseInfo>();
     }
 }

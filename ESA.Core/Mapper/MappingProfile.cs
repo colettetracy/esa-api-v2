@@ -53,6 +53,7 @@ namespace ESA.Core.Mapper
                 .ReverseMap();
             CreateMap<CalendarBaseInfo, CourseCalendar>()
                 .ForMember(dest => dest.StartDate, act => act.MapFrom(src => DateOnly.FromDateTime(src.StartDate)))
+                
                 .ForMember(dest => dest.FinishDate, act => act.MapFrom(src => DateOnly.FromDateTime(src.FinishDate)))
                 .ReverseMap();
 

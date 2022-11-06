@@ -24,7 +24,7 @@ namespace ESA.Core.Interfaces
 
         Task<Result<IEnumerable<CalendarInfo>>> FindByTeacherAsync(int teacherId);
 
-        Task<Result<CalendarInfo>> AddCalendarAsync(CalendarBaseInfo calendarInfo);
+        Task<Result<CalendarInfo>> AddCalendarAsync(List<CalendarBaseInfo> calendarInfo);
     }
 
     public interface IScheduleService

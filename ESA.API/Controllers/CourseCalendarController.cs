@@ -40,7 +40,7 @@ namespace ESA.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(CalendarInfo), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Result<CalendarInfo>>> AddCalendarAsync([FromBody] CalendarBaseInfo calendarInfo)
+        public async Task<ActionResult<Result<CalendarInfo>>> AddCalendarAsync([FromBody] List<CalendarBaseInfo> calendarInfo)
         {
             return await calendarService.AddCalendarAsync(calendarInfo);
         }
