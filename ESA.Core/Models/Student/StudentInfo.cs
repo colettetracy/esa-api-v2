@@ -62,6 +62,12 @@ namespace ESA.Core.Models.Student
         public string Coupon { get; set; } = String.Empty;
 
     }
+
+    public class PaymentConfirmBaseInfo
+    {
+        public int Id { set; get; }
+
+    }
     public class StudentDeleteBaseInfo
     {
         public int Id { set; get; }

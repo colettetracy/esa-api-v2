@@ -139,6 +139,44 @@ namespace ESA.Core.Services
             }
         }
 
+        public async Task<Result<List<StudentInfo>>> UpdatePaymentAsync(List<PaymentConfirmBaseInfo> studentInfo)
+        {
+            var result = new Result<List<StudentInfo>>();
+            try
+            {
+                if (studentInfo == null)
+                    return result.Invalid(new List<ValidationError>
+                    {
+                        new ValidationError()
+                        {
+                            Identifier = $"Student::{AddStudentAsync}",
+                            ErrorMessage = "Model invalid",
+                            Severity = ValidationSeverity.Warning
+                        }
+                    });
+                List<StudentInfo> students = new();
+                foreach (var item in studentInfo)
+                {
+                    var student = await studentReadRepository.FirstOrDefaultAsync(new StudentSpec(item.Id), Utils.Commons.GetCancellationToken(15).Token);
+                    if (student == null)
+                        return result.Conflict("Student schedule not found");
+
+                    student.PaymentConfirmed = true;
+                    student.LastUpdate = DateTime.UtcNow;
+
+                    await studentWriteRepository.UpdateAsync(student);
+
+                    students.Add(mapper.Map<StudentInfo>(student));
+                }
+                return result.Success(students);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message, studentInfo);
+                return result.Error("An unexpected error has occurred", ex.Message);
+            }
+        }
+
         public async Task<Result<ScheduleDeleteInfo>> DeleteStudentAsync(int id)
         {
             var result = new Result<ScheduleDeleteInfo>();

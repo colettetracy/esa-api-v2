@@ -39,6 +39,13 @@ namespace ESA.API.Controllers
             return await studentService.ApplyCouponAsync(studentInfo);
         }
 
+        [HttpPut("confirmPayment")]
+        [ProducesResponseType(typeof(StudentInfo), StatusCodes.Status200OK)]
+        public async Task<ActionResult<Result<List<StudentInfo>>>> UpdatePaymentAsync([FromBody] List<PaymentConfirmBaseInfo> studentInfo)
+        {
+            return await studentService.UpdatePaymentAsync(studentInfo);
+        }
+
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(ScheduleDeleteInfo), StatusCodes.Status200OK)]
         public async Task<ActionResult<Result<ScheduleDeleteInfo>>> DeleteAsync([FromRoute] int Id)

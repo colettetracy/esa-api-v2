@@ -11,6 +11,7 @@ namespace ESA.Core.Interfaces
 
         Task<Result<StudentInfo>> AddStudentAsync(StudentBaseInfo studentInfo);
         Task<Result<StudentInfo>> ApplyCouponAsync(StudentCouponBaseInfo studentInfo);
+        Task<Result<List<StudentInfo>>> UpdatePaymentAsync(List<PaymentConfirmBaseInfo> studentInfo);
         Task<Result<ScheduleDeleteInfo>> DeleteStudentAsync(int id);
     }
 
