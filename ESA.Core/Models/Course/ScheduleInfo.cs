@@ -49,7 +49,8 @@ namespace ESA.Core.Models.Course
 
     public class AvailabilityInfo
     {
+        public ScheduleInfo scheduleInfo { get; set; }
         public DateTime? Date { get; set; }
-        public List<string> Times { get; set; } = new List<string>();
+        public List<DateTime> Times { get; set; } = new List<DateTime>();
     }
 }

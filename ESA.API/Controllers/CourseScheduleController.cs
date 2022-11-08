@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using ESA.Core.Interfaces;
 using ESA.Core.Models.Course;
+using ESA.Core.Models.Student;
+using ESA.Core.Services;
 using ESA.Core.Specs;
 using ESA.Core.Specs.Filters;
 using GV.DomainModel.SharedKernel.Interop;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace ESA.API.Controllers
 {
@@ -13,10 +16,12 @@ namespace ESA.API.Controllers
     public class CourseScheduleController : ApiControllerBase
     {
         private readonly IScheduleService scheduleService;
+        private readonly IStudentService studentService;
 
-        public CourseScheduleController(IScheduleService scheduleService)
+        public CourseScheduleController(IScheduleService scheduleService, IStudentService studentService)
         {
             this.scheduleService = scheduleService;
+            this.studentService = studentService;
         }
 
         [HttpGet("filter")]
@@ -30,10 +35,14 @@ namespace ESA.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ScheduleInfo>), StatusCodes.Status200OK)]
         public async Task<ActionResult<Result<IEnumerable<AvailabilityInfo>>>> GetAvailabilityScheduleAsync([FromQuery] ScheduleFilter filter)
         {
+            StudentFilter filter2 = new();
+            filter2.TeacherId = filter.TeacherId;
+            filter2.PaymentConfirmed = true;
+
             var filtered = await scheduleService.FilterAsync(filter);
+            var purchases = await studentService.FilterAsync(filter2);
 
-
-            return UtilsAvailability.getAvailability(filtered.Value);
+            return UtilsAvailability.getAvailability(filtered.Value, purchases.Value);
         }
 
         [HttpPost]
@@ -50,11 +59,11 @@ namespace ESA.API.Controllers
             return await scheduleService.DeleteScheduleAsync(scheduleId);
         }
 
-        
+
     }
     public static class UtilsAvailability
     {
-        public static Result<IEnumerable<AvailabilityInfo>> getAvailability(IEnumerable<ScheduleInfo> schedule)
+        public static Result<IEnumerable<AvailabilityInfo>> getAvailability(IEnumerable<ScheduleInfo> schedule, IEnumerable<StudentInfo> student)
         {
             var result = new Result<IEnumerable<AvailabilityInfo>>();
             try
@@ -70,17 +79,14 @@ namespace ESA.API.Controllers
                     }
                     else
                     {
-                        if(!existsDate(availability.Select(x=> x.Date).ToList(), sch.Schedule))
-                        {
-                            availabilityInfo.Date = sch.Schedule;
-                        }
-                        else
-                        {
-                            availabilityInfo = availability.Where(x => x.Date.Equals(sch.Schedule)).FirstOrDefault();
-                        }
-                        availabilityInfo.Times.AddRange(getTimesOfDay(sch.Schedule, sch.Minutes));
+                        availabilityInfo.Date = sch.Schedule;
+
+                        availabilityInfo?.Times.AddRange(getTimesOfDay(sch.Schedule, sch.Minutes));
                     }
-                    availability.Add(availabilityInfo);
+                    var finalDates = removeTimes(student.ToList(), availabilityInfo);
+                    finalDates.scheduleInfo = sch;
+                    if (finalDates.Times.Count() > 0)
+                        availability.Add(finalDates);
                 }
 
                 return result.Success(availability);
@@ -91,13 +97,33 @@ namespace ESA.API.Controllers
             }
         }
 
-        public static List<string> getTimesOfDay(DateTime date, int duration)
+        public static AvailabilityInfo removeTimes(List<StudentInfo> purchased, AvailabilityInfo availability)
+        {
+            foreach (var item in purchased)
+            {
+                var times = getTimesOfDay(item.EnrolledDate, item.TimePurchased);
+                var date = item.EnrolledDate.ToShortDateString();
+
+                if (availability.Date.Value.ToShortDateString().Equals(date))
+                {
+                    foreach (var timesAv in availability.Times)
+                    {
+                        if (times.Any(x=> x.Equals(timesAv)))
+                            availability.Times = availability.Times.Where(x=> !x.Equals(timesAv)).ToList();
+                    }
+
+                }
+            }
+            return availability;
+        }
+
+        public static List<DateTime> getTimesOfDay(DateTime date, int duration)
         {
             var dateTmp = date;
-            List<string> times = new List<string>();
+            List<DateTime> times = new List<DateTime>();
             while (dateTmp.CompareTo(date.AddMinutes(duration)) < 0)
             {
-                times.Add(dateTmp.ToShortTimeString()+"");
+                times.Add(dateTmp);
                 dateTmp = dateTmp.AddMinutes(30);
             }
             return times;
@@ -105,7 +131,9 @@ namespace ESA.API.Controllers
 
         public static bool existsDate(List<DateTime?> dates, DateTime date)
         {
-            return dates.Where(d => d.Equals(date)).Any();
+            var dtmp = dates.Select(d => d.Value.ToShortDateString()).Contains(date.ToShortDateString());
+
+            return dtmp;
         }
     }
 }
