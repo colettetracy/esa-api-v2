@@ -16,7 +16,7 @@ namespace ESA.Core.Models.Course
 
         public DateTime LastUpdate { get; set; }
 
-        public CalendarInfo Calendar { set; get; }
+        public CalendarInfo CourseCalendar { set; get; }
         public StudentInfo CourseStudent { set; get; }
     }
 

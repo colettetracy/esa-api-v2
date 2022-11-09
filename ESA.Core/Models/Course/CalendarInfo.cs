@@ -17,6 +17,7 @@ namespace ESA.Core.Models.Course
         public bool IsActive { get; set; }
 
         public DateTime LastUpdate { get; set; }
+        public CourseInfo Course { get; set; }
     }
 
     public class CalendarBaseInfo

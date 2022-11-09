@@ -8,7 +8,8 @@ namespace ESA.Core.Specs
     {
         public ReviewSpec(ReviewFilter filter)
         {
-            Query.Include(x => x.CourseCalendar);
+            Query.Include(x => x.CourseCalendar).ThenInclude(x=>x.Course);
+            Query.Include(z=>z.CourseStudent).ThenInclude(w=>w.Student);
             if (filter.CourseId > 0)
                 Query.Where(x => x.CourseCalendar.CourseId == filter.CourseId);
 
