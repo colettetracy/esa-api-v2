@@ -23,6 +23,13 @@ namespace ESA.API.Controllers
             return await accountSurveyService.FindByAccountAsync(accountId);
         }
 
+        [HttpGet()]
+        [ProducesResponseType(typeof(AccountSurveyInfo), StatusCodes.Status200OK)]
+        public async Task<ActionResult<Result<IEnumerable<AccountSurveyInfo>>>> GetAllSurveyAsync()
+        {
+            return await accountSurveyService.GetAllAsync();
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(AccountSurveyInfo), StatusCodes.Status200OK)]
         public async Task<ActionResult<Result<AccountSurveyInfo>>> AddAccountSurveyAsync([FromBody] AccountSurveyBaseInfo surveyInfo)

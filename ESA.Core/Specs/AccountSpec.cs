@@ -68,5 +68,10 @@ namespace ESA.Core.Specs
         {
             Query.Where(x => x.AccountId == accountId);
         }
+
+        public AccountSurveySpec()
+        {
+            Query.Include(x=>x.Account);
+        }
     }
 }

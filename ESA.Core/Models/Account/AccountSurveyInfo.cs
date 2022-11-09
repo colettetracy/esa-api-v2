@@ -13,6 +13,8 @@ namespace ESA.Core.Models.Account
         public string? RecommendedBy { get; set; }
 
         public DateTime LastUpdate { get; set; }
+
+        public AccountInfo? Account { get; set; }
     }
 
     public class AccountSurveyBaseInfo

@@ -9,6 +9,7 @@ using FluentValidation;
 using GV.DomainModel.SharedKernel.Extensions;
 using GV.DomainModel.SharedKernel.Interfaces;
 using GV.DomainModel.SharedKernel.Interop;
+using System.Collections.Generic;
 
 namespace ESA.Core.Services
 {
@@ -87,5 +88,24 @@ namespace ESA.Core.Services
                 return result.Error("An unexpected error has occurred", ex.Message);
             }
         }
+
+        public async Task<Result<IEnumerable<AccountSurveyInfo>>> GetAllAsync()
+        {
+            var result = new Result<IEnumerable<AccountSurveyInfo>>();
+            try
+            {
+                var survey = await surveyReadRepository.ListAsync(new AccountSurveySpec());
+                if (survey == null)
+                    return result.NotFound("");
+
+                return result.Success(survey.Select(x => mapper.Map<AccountSurveyInfo>(x)));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message);
+                return result.Error("An unexpected error has occurred", ex.Message);
+            }
+        }
+
     }
 }

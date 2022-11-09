@@ -27,4 +27,12 @@ namespace ESA.Core.Models.Payment
         public bool IsActive { get; set; } = true;
         public DateTime Updated_At { set; get; }
     }
+
+    public class DashboardInfo
+    {
+        public int Students { get; set; }
+        public int Courses { get; set; }
+        public int Packs { get; set; }
+        public int Reviews { get; set; }
+    }
 }

@@ -22,6 +22,7 @@ namespace ESA.Core.Interfaces
     public interface IAccountSurveyService
     {
         Task<Result<AccountSurveyInfo>> FindByAccountAsync(int accountId);
+        Task<Result<IEnumerable<AccountSurveyInfo>>> GetAllAsync();
 
         Task<Result<AccountSurveyInfo>> AddSurverAsync(AccountSurveyBaseInfo surveyInfo);
     }

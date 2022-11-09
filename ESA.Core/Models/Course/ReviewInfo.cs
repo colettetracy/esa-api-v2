@@ -1,4 +1,6 @@
-﻿namespace ESA.Core.Models.Course
+﻿using ESA.Core.Models.Student;
+
+namespace ESA.Core.Models.Course
 {
     public class ReviewInfo
     {
@@ -13,6 +15,9 @@
         public float Rating { get; set; }
 
         public DateTime LastUpdate { get; set; }
+
+        public CalendarInfo Calendar { set; get; }
+        public StudentInfo CourseStudent { set; get; }
     }
 
     public class ReviewBaseInfo
