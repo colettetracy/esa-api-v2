@@ -7,6 +7,7 @@ namespace ESA.Core.Interfaces
     {
         Task<Result<MailResultBase<string>>> AccountDeleteNotification(int accountId);
 
+
         Task<Result<MailResultBase<string>>> PurchaseNotification(int scheduleId, int studentId);
     }
 }

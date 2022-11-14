@@ -46,6 +46,8 @@ namespace ESA.Core.Mapper
             CreateMap<CourseCalendar, CalendarInfo>()
                 .ForMember(dest => dest.StartDate, act => act.MapFrom(src => src.StartDate.ToDateTime(TimeOnly.MinValue)))
                 .ForMember(dest => dest.FinishDate, act => act.MapFrom(src => src.FinishDate.ToDateTime(TimeOnly.MinValue)))
+                .ForMember(dest => dest.CourseSchedule, act => act.MapFrom(src => src.CourseSchedule))
+                .ForMember(dest => dest.Teacher, act => act.MapFrom(src => src.Teacher))
                 .ReverseMap();
             CreateMap<CourseCalendar, CalendarBaseInfo>()
                 .ForMember(dest => dest.StartDate, act => act.MapFrom(src => src.StartDate.ToDateTime(TimeOnly.MinValue)))

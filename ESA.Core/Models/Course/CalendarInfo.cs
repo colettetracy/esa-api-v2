@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ESA.Core.Models.Account;
+using System.ComponentModel.DataAnnotations;
 
 namespace ESA.Core.Models.Course
 {
@@ -17,7 +18,8 @@ namespace ESA.Core.Models.Course
         public bool IsActive { get; set; }
 
         public DateTime LastUpdate { get; set; }
-        public CourseInfo Course { get; set; }
+        public AccountInfo Teacher { get; set; }
+        public List<ScheduleInfo> CourseSchedule { get; set; } = new List<ScheduleInfo>();
     }
 
     public class CalendarBaseInfo

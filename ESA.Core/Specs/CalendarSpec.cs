@@ -12,6 +12,8 @@ namespace ESA.Core.Specs
 
         public CalendarSpec(int courseId, bool isActive)
         {
+            Query.Include(x => x.CourseSchedule);
+            Query.Include(x => x.Teacher);
             Query.Where(x => x.CourseId == courseId);
         }
     }
