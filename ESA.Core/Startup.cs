@@ -27,6 +27,8 @@ namespace ESA.Core
 
             services.AddScoped(typeof(IDashboardService), typeof(DashboardService));
 
+            services.AddScoped(typeof(IStudentGroupService), typeof(StudentGroupService));
+
             services.AddScoped(typeof(IStudentService), typeof(StudentService));
 
             services.AddScoped(typeof(INotificationService), typeof(NotificationService));

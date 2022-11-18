@@ -17,6 +17,7 @@ namespace ESA.Core
         public bool InvoiceConfirmed { get; set; }
         public DateTime EnrolledDate { get; set; }
         public DateTime LastUpdate { get; set; }
+        public decimal? Amount { get; set; }
 
         public virtual CourseCalendar CourseCalendar { get; set; }
         public virtual Account Student { get; set; }

@@ -1,4 +1,7 @@
-﻿namespace ESA.Core.Models.Student
+﻿using ESA.Core.Models.Account;
+using ESA.Core.Models.Course;
+
+namespace ESA.Core.Models.Student
 {
     public class StudentGroupInfo
     {
@@ -21,6 +24,8 @@
         public DateTime EnrolledDate { get; set; }
 
         public DateTime LastUpdate { get; set; }
+        public CalendarInfo CourseCalendar { get; set; }
+        public AccountInfo Student { set; get; }
     }
 
     public class StudentGroupCreate

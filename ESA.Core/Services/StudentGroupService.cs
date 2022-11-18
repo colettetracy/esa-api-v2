@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using ESA.Core.Interfaces;
+using ESA.Core.Models.Course;
 using ESA.Core.Models.Student;
 using ESA.Core.Specs;
 using ESA.Core.Specs.Filters;
@@ -84,6 +85,65 @@ namespace ESA.Core.Services
             catch (Exception ex)
             {
                 logger.LogError(ex, ex.Message, filter);
+                return result.Error("An unexpected error has occurred", ex.Message);
+            }
+        }
+
+        public async Task<Result<List<StudentGroupInfo>>> UpdatePaymentAsync(List<PaymentConfirmBaseInfo> studentInfo)
+        {
+            var result = new Result<List<StudentGroupInfo>>();
+            try
+            {
+                if (studentInfo == null)
+                    return result.Invalid(new List<ValidationError>
+                    {
+                        new ValidationError()
+                        {
+                            Identifier = $"Student::{AddStudentAsync}",
+                            ErrorMessage = "Model invalid",
+                            Severity = ValidationSeverity.Warning
+                        }
+                    });
+                List<StudentGroupInfo> students = new();
+                foreach (var item in studentInfo)
+                {
+                    var student = await groupReadRepository.FirstOrDefaultAsync(new StudentGroupSpec(item.Id), Utils.Commons.GetCancellationToken(15).Token);
+                    if (student == null)
+                        return result.Conflict("Student schedule not found");
+
+                    student.PaymentConfirmed = true;
+                    student.LastUpdate = DateTime.UtcNow;
+
+                    await groupWriteRepository.UpdateAsync(student);
+
+                    students.Add(mapper.Map<StudentGroupInfo>(student));
+                }
+                return result.Success(students);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message, studentInfo);
+                return result.Error("An unexpected error has occurred", ex.Message);
+            }
+        }
+
+        public async Task<Result<ScheduleDeleteInfo>> DeleteStudentAsync(int id)
+        {
+            var result = new Result<ScheduleDeleteInfo>();
+            try
+            {
+                var exists = await groupReadRepository.FirstOrDefaultAsync(new StudentGroupSpec(id));
+                if (exists == null)
+                    return result.NotFound("");
+                await groupWriteRepository.DeleteAsync(exists);
+                return result.Success(new ScheduleDeleteInfo
+                {
+                    Deleted = true
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.Message, id);
                 return result.Error("An unexpected error has occurred", ex.Message);
             }
         }

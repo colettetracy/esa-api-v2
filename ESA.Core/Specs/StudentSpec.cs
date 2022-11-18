@@ -44,8 +44,10 @@ namespace ESA.Core.Specs
     {
         public StudentGroupSpec(StudentGroupFilter filter)
         {
-            Query.Include(x => x.CourseCalendar)
-                .Include(x => x.Student);
+            Query.Include(x => x.CourseCalendar);
+            Query.Include(x => x.CourseCalendar).ThenInclude(y => y.Teacher);
+            Query.Include(x => x.CourseCalendar).ThenInclude(y=>y.CourseSchedule);
+            Query.Include(x => x.CourseCalendar).ThenInclude(y => y.Course);
 
             if (filter.CalendarId > 0)
                 Query.Where(x => x.CourseCalendarId == filter.CalendarId);
@@ -60,6 +62,11 @@ namespace ESA.Core.Specs
                 Query.Where(x => x.InvoiceConfirmed == filter.InvoiceConfirmed);
 
             Query.AsNoTracking();
+        }
+
+        public StudentGroupSpec(int id)
+        {
+            Query.Where(x => x.Id == id);
         }
     }
 }

@@ -51,7 +51,7 @@ namespace ESA.Core.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseNpgsql("Host=esa-db-postgresql-stage-do-user-12122388-0.b.db.ondigitalocean.com;Port=25060;Database=academy;Username=doadmin;Password=AVNS_WET-02hC8zD4X7CZrbs;SSL Mode=Require;Client Certificate=C:\\Users\\Tracy\\Downloads\\ca-certificate.crt;Persist Security Info=True");
+                optionsBuilder.UseNpgsql("Persist Security Info=True;Client Certificate=C:\\Users\\Tracy\\Downloads\\ca-certificate.crt;SSL Mode=Require;Password=AVNS_WET-02hC8zD4X7CZrbs;Username=doadmin;Database=academy;Port=25060;Host=esa-db-postgresql-stage-do-user-12122388-0.b.db.ondigitalocean.com");
             }
         }
 
@@ -471,6 +471,10 @@ namespace ESA.Core.Data
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Amount)
+                    .HasPrecision(6, 2)
+                    .HasColumnName("amount");
 
                 entity.Property(e => e.CourseCalendarId).HasColumnName("course_calendar_id");
 

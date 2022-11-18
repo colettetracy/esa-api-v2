@@ -20,5 +20,8 @@ namespace ESA.Core.Interfaces
         Task<Result<IEnumerable<StudentGroupInfo>>> FilterAsync(StudentGroupFilter filter);
 
         Task<Result<StudentGroupInfo>> AddStudentAsync(StudentGroupCreate studentGroup);
+
+        Task<Result<List<StudentGroupInfo>>> UpdatePaymentAsync(List<PaymentConfirmBaseInfo> studentInfo);
+        Task<Result<ScheduleDeleteInfo>> DeleteStudentAsync(int id);
     }
 }
