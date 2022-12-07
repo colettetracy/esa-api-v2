@@ -207,7 +207,7 @@ namespace ESA.Core.Services
                 if (list == null)
                     return result.NotFound("");
 
-                return result.Success(list.Select(x => mapper.Map<StudentInfo>(x)));
+                return result.Success(list.Select(x => mapper.Map<StudentInfo>(x)).OrderByDescending(x=> x.EnrolledDate));
             }
             catch (Exception ex)
             {
