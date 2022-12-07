@@ -61,6 +61,8 @@ namespace ESA.Core.Data
             {
                 entity.ToTable("account", "private");
 
+                entity.HasIndex(e => e.RoleId, "account_role_id_idx");
+
                 entity.HasIndex(e => new { e.FirstName, e.LastName, e.Email, e.RoleId }, "ix_account");
 
                 entity.HasIndex(e => new { e.Email, e.RoleId }, "un_account")
@@ -113,6 +115,8 @@ namespace ESA.Core.Data
             {
                 entity.ToTable("account_profile", "private");
 
+                entity.HasIndex(e => e.AccountId, "account_profile_account_id_idx");
+
                 entity.HasIndex(e => new { e.AccountId, e.NationalityCode }, "ix_account_profile");
 
                 entity.HasIndex(e => e.AccountId, "un_account_profile")
@@ -122,7 +126,7 @@ namespace ESA.Core.Data
 
                 entity.Property(e => e.AboutMe)
                     .IsRequired()
-                    .HasMaxLength(200)
+                    .HasMaxLength(500)
                     .HasColumnName("about_me");
 
                 entity.Property(e => e.AccountId).HasColumnName("account_id");
@@ -269,6 +273,14 @@ namespace ESA.Core.Data
             {
                 entity.ToTable("course_calendar", "private");
 
+                entity.HasIndex(e => e.FinishDate, "course_calendar_finish_date_idx");
+
+                entity.HasIndex(e => e.Id, "course_calendar_id_idx");
+
+                entity.HasIndex(e => e.StartDate, "course_calendar_start_date_idx");
+
+                entity.HasIndex(e => e.TeacherId, "course_calendar_teacher_id_idx");
+
                 entity.HasIndex(e => new { e.CourseId, e.TeacherId, e.StartDate, e.FinishDate }, "ix_couser_calendar");
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -342,6 +354,14 @@ namespace ESA.Core.Data
             {
                 entity.ToTable("course_schedule", "private");
 
+                entity.HasIndex(e => e.CourseCalendarId, "course_schedule_course_calendar_id_idx");
+
+                entity.HasIndex(e => e.Id, "course_schedule_id_idx");
+
+                entity.HasIndex(e => e.IsPrivate, "course_schedule_is_private_idx");
+
+                entity.HasIndex(e => e.Schedule, "course_schedule_schedule_idx");
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CourseCalendarId).HasColumnName("course_calendar_id");
@@ -372,6 +392,12 @@ namespace ESA.Core.Data
             modelBuilder.Entity<CourseStudent>(entity =>
             {
                 entity.ToTable("course_student", "private");
+
+                entity.HasIndex(e => e.CourseScheduleId, "course_student_course_schedule_id_idx");
+
+                entity.HasIndex(e => e.Id, "course_student_id_idx");
+
+                entity.HasIndex(e => e.PaymentConfirmed, "course_student_payment_confirmed_idx");
 
                 entity.HasIndex(e => new { e.StudentId, e.Progress, e.CourseScheduleId }, "ix_course_student");
 
